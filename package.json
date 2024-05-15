@@ -1,0 +1,49 @@
+{
+  "name": "nodejs-template-tg-bot",
+  "version": "1.0.0",
+  "description": "NodeJS template of Telegram Bot with telegraf package and local sessions. Have a commands, scenes and custom context.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "nodemon",
+    "lint": "eslint ./src/**",
+    "lint:fix": "eslint ./src/** --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miles101armales/nodejs-template-tg-bot.git"
+  },
+  "keywords": [
+    "telegram",
+    "telegraf",
+    "bot",
+    "nodejs",
+    "template",
+    "scenes"
+  ],
+  "author": "Miles101Armales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miles101armales/nodejs-template-tg-bot/issues"
+  },
+  "homepage": "https://github.com/miles101armales/nodejs-template-tg-bot#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "reflect-metadata": "^0.2.2",
+    "telegraf": "^4.16.3",
+    "telegraf-session-local": "^2.1.1",
+    "tslog": "^4.9.2"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^20.12.7",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  }
+}
