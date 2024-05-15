@@ -57,6 +57,7 @@ export class LearnScene extends Scene {
 			async ctx => {
 				ctx.reply('Загрузка информации по действующим дропам...')
 				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
+				ctx.wizard.next();
 			},
 			async ctx => {
 				ctx.replyWithHTML('Ответьте на вопрос: <b>Какую сумму вы собираетесь использовать для работы с дропами?</b>', {
