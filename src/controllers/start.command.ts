@@ -14,8 +14,7 @@ export class StartCommand extends Command {
 				});
 			})
 		} catch (error) {
-			const bot = new Bot(new ConfigService, new LoggerService);
-			bot.init();
+			console.error(error)
 		}
 	}
 
