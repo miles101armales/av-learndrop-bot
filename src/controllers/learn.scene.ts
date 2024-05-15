@@ -1,6 +1,6 @@
 import { IBotContext } from '../models/context.interface';
 import { Scene } from '../models/scene.class';
-import { Composer, Scenes, Telegraf } from 'telegraf';
+import { Composer, Scenes, Telegraf, TelegramError } from 'telegraf';
 import { final, greeting, video0_5000, video10000, video5000_10000 } from './constants';
 import { Bot } from '../app';
 import { ConfigService } from '../utils/config/config.service';
@@ -187,7 +187,14 @@ export class LearnScene extends Scene {
 						}),
 						ctx.wizard.next();
 					} catch (error) {
-						this.exceptionFilter.handle(error)
+						// Handle the error appropriately
+						if (error instanceof TelegramError && error.code === 403) {
+							// Log the error or handle it in some way
+							console.error('TelegramError 403 Forbidden:', error.description);
+						} else {
+							// For other types of errors, you can use your exception filter
+							this.exceptionFilter.handle(error);
+						}
 					}
 				},
 				stepHandlerforAnswerOne,
