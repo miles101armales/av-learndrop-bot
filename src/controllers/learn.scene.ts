@@ -5,181 +5,232 @@ import { final, greeting, video0_5000, video10000, video5000_10000 } from './con
 import { Bot } from '../app';
 import { ConfigService } from '../utils/config/config.service';
 import { LoggerService } from '../utils/logger/logger.service';
+import { ExceptionFilter } from '../utils/error/exception.service';
 
 export class LearnScene extends Scene {
 	state: string;
 	scene: Scenes.WizardScene<IBotContext>
+	exceptionFilter: ExceptionFilter;
 	constructor(bot: Telegraf<IBotContext>) {
 		super(bot);
+		this.exceptionFilter = new ExceptionFilter()
 	}
 	handle(): void {
-		try {
 			const stepHandlerforAnswerOne = new Composer<IBotContext>();
-		stepHandlerforAnswerOne.action('0100', ctx => {
-			ctx.session.question1 = 'от 0 до 5 000 РУБ';
-			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
-						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
-						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
-					]
+			stepHandlerforAnswerOne.action('0100', ctx => {
+				try {
+					ctx.session.question1 = 'от 0 до 5 000 РУБ';
+					ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+								[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+								[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerOne.action('100500', ctx => {
-			ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
-			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
-						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
-						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
-					]
+			});
+			stepHandlerforAnswerOne.action('100500', ctx => {
+				try {
+					ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
+					ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+								[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+								[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerOne.action('5001000', ctx => {
-			ctx.session.question1 = 'от 25 000 РУБ';
-			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
-						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
-						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
-					]
+			});
+			stepHandlerforAnswerOne.action('5001000', ctx => {
+				try {
+					ctx.session.question1 = 'от 25 000 РУБ';
+					ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+								[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+								[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
+			});
 
-		const stepHandlerforAnswerTwo = new Composer<IBotContext>();
-		stepHandlerforAnswerTwo.action('0k50k', ctx => {
-			ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
-			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'до 15 минут в день', callback_data: '15min'}],
-						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
-						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
-					]
+			const stepHandlerforAnswerTwo = new Composer<IBotContext>();
+			stepHandlerforAnswerTwo.action('0k50k', ctx => {
+				try {
+					ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
+					ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'до 15 минут в день', callback_data: '15min'}],
+								[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+								[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerTwo.action('50k100k', ctx => {
-			ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
-			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'до 15 минут в день', callback_data: '15min'}],
-						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
-						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
-					]
+			});
+			stepHandlerforAnswerTwo.action('50k100k', ctx => {
+				try {
+					ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
+					ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'до 15 минут в день', callback_data: '15min'}],
+								[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+								[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerTwo.action('100k+', ctx => {
-			ctx.session.question2 = 'от 100 000 тысяч рублей';
-			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
-				reply_markup: {
-					inline_keyboard: [
-						[{ text: 'до 15 минут в день', callback_data: '15min'}],
-						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
-						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
-					]
+			});
+			stepHandlerforAnswerTwo.action('100k+', ctx => {
+				try {
+					ctx.session.question2 = 'от 100 000 тысяч рублей';
+					ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+						reply_markup: {
+							inline_keyboard: [
+								[{ text: 'до 15 минут в день', callback_data: '15min'}],
+								[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+								[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+							]
+						}
+					}),
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			}),
-			ctx.wizard.next();
-		});
+			});
 
-		const stepHandlerforAnswerThree = new Composer<IBotContext>();
-		stepHandlerforAnswerThree.action('15min', ctx => {
-			ctx.session.question3 = 'до 15 минут в день';
-			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
-				reply_markup: {
-					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+			const stepHandlerforAnswerThree = new Composer<IBotContext>();
+			stepHandlerforAnswerThree.action('15min', ctx => {
+				try {
+					ctx.session.question3 = 'до 15 минут в день';
+					ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+						reply_markup: {
+							inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+						}
+					})
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			})
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerThree.action('1hour', ctx => {
-			ctx.session.question3 = 'до часа в день';
-			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
-				reply_markup: {
-					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+			});
+			stepHandlerforAnswerThree.action('1hour', ctx => {
+				try {
+					ctx.session.question3 = 'до часа в день';
+					ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+						reply_markup: {
+							inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+						}
+					})
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			})
-			ctx.wizard.next();
-		});
-		stepHandlerforAnswerThree.action('1hour+', ctx => {
-			ctx.session.question3 = 'больше часа в день';
-			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
-				reply_markup: {
-					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+			});
+			stepHandlerforAnswerThree.action('1hour+', ctx => {
+				try {
+					ctx.session.question3 = 'больше часа в день';
+					ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+						reply_markup: {
+							inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+						}
+					})
+					ctx.wizard.next();
+				} catch (error) {
+					this.exceptionFilter.handle(error)
 				}
-			})
-			ctx.wizard.next();
-		});
+			});
 
-		this.scene = new Scenes.WizardScene(
-			'learn',
-			ctx => {
-				ctx.reply('Загрузка информации по действующим дропам...')
-				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
-				ctx.wizard.next();
-			},
-			ctx => {
-				ctx.replyWithHTML('Ответьте на вопрос: <b>Какую сумму вы собираетесь использовать для работы с дропами?</b>', {
-					reply_markup: {
-						inline_keyboard: [
-							[{ text: 'от 0 до 5 000 РУБ', callback_data: '0100'}],
-							[{ text: 'от 5 000 до 25 000 РУБ', callback_data: '100500' }],
-							[{ text: 'от 25 000 РУБ', callback_data: '5001000' }]
-						]
+			this.scene = new Scenes.WizardScene(
+				'learn',
+				ctx => {
+					try {
+						ctx.reply('Загрузка информации по действующим дропам...')
+						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
+						ctx.wizard.next();
+					} catch (error) {
+						this.exceptionFilter.handle(error)
 					}
-				}),
-				ctx.wizard.next();
-			},
-			stepHandlerforAnswerOne,
-			stepHandlerforAnswerTwo,
-			stepHandlerforAnswerThree,
-			ctx => {
-				switch (ctx.session.question1) {
-					case 'от 0 до 5 000 РУБ':
-						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.mp4' }, video0_5000);
+				},
+				ctx => {
+					try {
+						ctx.replyWithHTML('Ответьте на вопрос: <b>Какую сумму вы собираетесь использовать для работы с дропами?</b>', {
+							reply_markup: {
+								inline_keyboard: [
+									[{ text: 'от 0 до 5 000 РУБ', callback_data: '0100'}],
+									[{ text: 'от 5 000 до 25 000 РУБ', callback_data: '100500' }],
+									[{ text: 'от 25 000 РУБ', callback_data: '5001000' }]
+								]
+							}
+						}),
 						ctx.wizard.next();
-						break;
-
-					case 'от 5 000 до 25 000 РУБ':
+					} catch (error) {
+						this.exceptionFilter.handle(error)
+					}
+				},
+				stepHandlerforAnswerOne,
+				stepHandlerforAnswerTwo,
+				stepHandlerforAnswerThree,
+				ctx => {
+					try {
+						switch (ctx.session.question1) {
+							case 'от 0 до 5 000 РУБ':
+								ctx.reply('Загрузка...');
+								ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.mp4' }, video0_5000);
+								ctx.wizard.next();
+								break;
+	
+							case 'от 5 000 до 25 000 РУБ':
+								ctx.reply('Загрузка...');
+								ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.mp4' }, video5000_10000);
+								ctx.wizard.next();
+								break;
+	
+							case 'от 25 000 РУБ':
+								ctx.reply('Загрузка...');
+								ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.mp4' }, video10000);
+								ctx.wizard.next();
+								break;
+						
+							default:
+								break;
+						}
+					} catch (error) {
+						this.exceptionFilter.handle(error)
+					}
+				},
+				ctx => {
+					try {
 						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.mp4' }, video5000_10000);
-						ctx.wizard.next();
-						break;
-
-					case 'от 25 000 РУБ':
-						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.mp4' }, video10000);
-						ctx.wizard.next();
-						break;
-				
-					default:
-						break;
+						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.mp4' }, final);
+						ctx.scene.leave();
+					} catch (error) {
+						this.exceptionFilter.handle(error)
+					}
 				}
-			},
-			ctx => {
-				ctx.reply('Загрузка...');
-				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.mp4' }, final);
-				ctx.scene.leave();
-			}
-		);
-		} catch (error) {
-			console.error(error)
-		}
+			);
 	}
 
 }
