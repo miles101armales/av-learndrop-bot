@@ -56,7 +56,7 @@ export class LearnScene extends Scene {
 			'learn',
 			async ctx => {
 				ctx.reply('Загрузка информации по действующим дропам...')
-				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.MP4' }, greeting);
+				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
 			},
 			async ctx => {
 				ctx.replyWithHTML('Ответьте на вопрос: <b>Какую сумму вы собираетесь использовать для работы с дропами?</b>', {
@@ -101,19 +101,19 @@ export class LearnScene extends Scene {
 				switch (ctx.session.question1) {
 					case 'от 0 до 5 000 РУБ':
 						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.MP4' }, video0_5000);
+						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.mp4' }, video0_5000);
 						ctx.wizard.next();
 						break;
 
 					case 'от 5 000 до 25 000 РУБ':
 						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.MP4' }, video5000_10000);
+						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.mp4' }, video5000_10000);
 						ctx.wizard.next();
 						break;
 
 					case 'от 25 000 РУБ':
 						ctx.reply('Загрузка...');
-						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.MP4' }, video10000);
+						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.mp4' }, video10000);
 						ctx.wizard.next();
 						break;
 				
@@ -123,7 +123,7 @@ export class LearnScene extends Scene {
 			},
 			async ctx => {
 				ctx.reply('Загрузка...');
-				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.MP4' }, final);
+				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.mp4' }, final);
 				ctx.scene.leave();
 			}
 		);
