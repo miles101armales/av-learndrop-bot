@@ -11,16 +11,16 @@ export class LearnScene extends Scene {
 	}
 	handle(): void {
 		const stepHandlerforAnswerOne = new Composer<IBotContext>();
-		stepHandlerforAnswerOne.action('0k50k', ctx => {
-			ctx.session.question1 = 'от 0 до 50 000 тысяч рублей';
+		stepHandlerforAnswerOne.action('0100', ctx => {
+			ctx.session.question1 = 'от 0 до 5 000 РУБ';
 			ctx.wizard.next();
 		});
-		stepHandlerforAnswerOne.action('50k100k', ctx => {
-			ctx.session.question1 = 'от 50 000 до 100 000 тысяч рублей';
+		stepHandlerforAnswerOne.action('100500', ctx => {
+			ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
 			ctx.wizard.next();
 		});
-		stepHandlerforAnswerOne.action('100k+', ctx => {
-			ctx.session.question1 = 'от 100 000 тысяч рублей';
+		stepHandlerforAnswerOne.action('5001000', ctx => {
+			ctx.session.question1 = 'от 25 000 РУБ';
 			ctx.wizard.next();
 		});
 
