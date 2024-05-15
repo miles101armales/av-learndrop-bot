@@ -13,7 +13,7 @@ export class LearnScene extends Scene {
 		const stepHandlerforAnswerOne = new Composer<IBotContext>();
 		stepHandlerforAnswerOne.action('0100', ctx => {
 			ctx.session.question1 = 'от 0 до 5 000 РУБ';
-			stepHandlerforAnswerTwo;
+			ctx.wizard.next();
 		});
 		stepHandlerforAnswerOne.action('100500', ctx => {
 			ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
@@ -27,7 +27,7 @@ export class LearnScene extends Scene {
 		const stepHandlerforAnswerTwo = new Composer<IBotContext>();
 		stepHandlerforAnswerTwo.action('0k50k', ctx => {
 			ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
-			stepHandlerforAnswerThree;
+			ctx.wizard.next();
 		});
 		stepHandlerforAnswerTwo.action('50k100k', ctx => {
 			ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
