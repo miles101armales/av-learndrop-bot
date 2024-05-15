@@ -13,42 +13,111 @@ export class LearnScene extends Scene {
 		const stepHandlerforAnswerOne = new Composer<IBotContext>();
 		stepHandlerforAnswerOne.action('0100', ctx => {
 			ctx.session.question1 = 'от 0 до 5 000 РУБ';
+			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerOne.action('100500', ctx => {
 			ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
+			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerOne.action('5001000', ctx => {
 			ctx.session.question1 = 'от 25 000 РУБ';
+			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
+						[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
+						[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 
 		const stepHandlerforAnswerTwo = new Composer<IBotContext>();
 		stepHandlerforAnswerTwo.action('0k50k', ctx => {
 			ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
+			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'до 15 минут в день', callback_data: '15min'}],
+						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerTwo.action('50k100k', ctx => {
 			ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
+			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'до 15 минут в день', callback_data: '15min'}],
+						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerTwo.action('100k+', ctx => {
 			ctx.session.question2 = 'от 100 000 тысяч рублей';
+			ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
+				reply_markup: {
+					inline_keyboard: [
+						[{ text: 'до 15 минут в день', callback_data: '15min'}],
+						[{ text: 'до 1 часа в день', callback_data: '1hour' }],
+						[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
+					]
+				}
+			}),
 			ctx.wizard.next();
 		});
 
 		const stepHandlerforAnswerThree = new Composer<IBotContext>();
 		stepHandlerforAnswerThree.action('15min', ctx => {
 			ctx.session.question3 = 'до 15 минут в день';
+			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+				reply_markup: {
+					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+				}
+			})
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerThree.action('1hour', ctx => {
 			ctx.session.question3 = 'до часа в день';
+			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+				reply_markup: {
+					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+				}
+			})
 			ctx.wizard.next();
 		});
 		stepHandlerforAnswerThree.action('1hour+', ctx => {
 			ctx.session.question3 = 'больше часа в день';
+			ctx.reply('Урок сформирован! Нажмите, чтобы получить ⬇️', {
+				reply_markup: {
+					inline_keyboard: [[{text: 'ПОЛУЧИТЬ', callback_data: 'complete'}]]
+				}
+			})
 			ctx.wizard.next();
 		});
 
@@ -72,31 +141,7 @@ export class LearnScene extends Scene {
 				ctx.wizard.next();
 			},
 			stepHandlerforAnswerOne,
-			async ctx => {
-				ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
-					reply_markup: {
-						inline_keyboard: [
-							[{ text: 'от 0 до 50 000 РУБ', callback_data: '0k50k'}],
-							[{ text: 'от 50 000 до 100 000 РУБ', callback_data: '50k100k' }],
-							[{ text: 'от 100 000 РУБ', callback_data: '100k+' }]
-						]
-					}
-				}),
-				ctx.wizard.next();
-			},
 			stepHandlerforAnswerTwo,
-			async ctx => {
-				ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
-					reply_markup: {
-						inline_keyboard: [
-							[{ text: 'до 15 минут в день', callback_data: '15min'}],
-							[{ text: 'до 1 часа в день', callback_data: '1hour' }],
-							[{ text: 'больше 1 часа в день', callback_data: '1hour+' }]
-						]
-					}
-				}),
-				ctx.wizard.next();
-			},
 			stepHandlerforAnswerThree,
 			async ctx => {
 				switch (ctx.session.question1) {
