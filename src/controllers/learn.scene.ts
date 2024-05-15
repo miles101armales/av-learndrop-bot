@@ -69,9 +69,11 @@ export class LearnScene extends Scene {
 						]
 					}
 				}),
+				this.bot.action('0100', ctx => {
+					ctx.session.question1 = 'от 0 до 5 000 РУБ';
+				});
 				ctx.wizard.next();
 			},
-			stepHandlerforAnswerOne,
 			async ctx => {
 				ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
 					reply_markup: {
