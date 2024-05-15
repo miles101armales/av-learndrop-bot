@@ -10,6 +10,48 @@ export class LearnScene extends Scene {
 		super(bot);
 	}
 	handle(): void {
+		const stepHandlerforAnswerOne = new Composer<IBotContext>();
+		stepHandlerforAnswerOne.action('0100', ctx => {
+			ctx.session.question1 = 'от 0 до 5 000 РУБ';
+			stepHandlerforAnswerTwo;
+		});
+		stepHandlerforAnswerOne.action('100500', ctx => {
+			ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
+			ctx.wizard.next();
+		});
+		stepHandlerforAnswerOne.action('5001000', ctx => {
+			ctx.session.question1 = 'от 25 000 РУБ';
+			ctx.wizard.next();
+		});
+
+		const stepHandlerforAnswerTwo = new Composer<IBotContext>();
+		stepHandlerforAnswerTwo.action('0k50k', ctx => {
+			ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
+			stepHandlerforAnswerThree;
+		});
+		stepHandlerforAnswerTwo.action('50k100k', ctx => {
+			ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
+			ctx.wizard.next();
+		});
+		stepHandlerforAnswerTwo.action('100k+', ctx => {
+			ctx.session.question2 = 'от 100 000 тысяч рублей';
+			ctx.wizard.next();
+		});
+
+		const stepHandlerforAnswerThree = new Composer<IBotContext>();
+		stepHandlerforAnswerThree.action('15min', ctx => {
+			ctx.session.question3 = 'до 15 минут в день';
+			ctx.wizard.next();
+		});
+		stepHandlerforAnswerThree.action('1hour', ctx => {
+			ctx.session.question3 = 'до часа в день';
+			ctx.wizard.next();
+		});
+		stepHandlerforAnswerThree.action('1hour+', ctx => {
+			ctx.session.question3 = 'больше часа в день';
+			ctx.wizard.next();
+		});
+
 		this.scene = new Scenes.WizardScene(
 			'learn',
 			async ctx => {
@@ -27,19 +69,9 @@ export class LearnScene extends Scene {
 						]
 					}
 				}),
-				this.bot.action('0100', ctx => {
-					ctx.session.question1 = 'от 0 до 5 000 РУБ';
-				});
-				this.bot.action('100500', ctx => {
-					ctx.session.question1 = 'от 5 000 до 25 000 РУБ';
-					ctx.wizard.next();
-				});
-				this.bot.action('5001000', ctx => {
-					ctx.session.question1 = 'от 25 000 РУБ';
-					ctx.wizard.next();
-				});
 				ctx.wizard.next();
 			},
+			stepHandlerforAnswerOne,
 			async ctx => {
 				ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
 					reply_markup: {
@@ -50,20 +82,9 @@ export class LearnScene extends Scene {
 						]
 					}
 				}),
-				this.bot.action('0k50k', ctx => {
-					ctx.session.question2 = 'от 0 до 50 000 тысяч рублей';
-					ctx.wizard.next();
-				});
-				this.bot.action('50k100k', ctx => {
-					ctx.session.question2 = 'от 50 000 до 100 000 тысяч рублей';
-					ctx.wizard.next();
-				});
-				this.bot.action('100k+', ctx => {
-					ctx.session.question2 = 'от 100 000 тысяч рублей';
-					ctx.wizard.next();
-				});
 				ctx.wizard.next();
 			},
+			stepHandlerforAnswerTwo,
 			async ctx => {
 				ctx.replyWithHTML('Урок уже почти сформирован!\n\nОтветьте на вопрос: <b>Сколько времени вы готовы уделять дропам?</b>', {
 					reply_markup: {
@@ -74,42 +95,32 @@ export class LearnScene extends Scene {
 						]
 					}
 				}),
-				this.bot.action('15min', ctx => {
-					ctx.session.question3 = 'до 15 минут в день';
-					ctx.wizard.next();
-				});
-				this.bot.action('1hour', ctx => {
-					ctx.session.question3 = 'до часа в день';
-					ctx.wizard.next();
-				});
-				this.bot.action('1hour+', ctx => {
-					ctx.session.question3 = 'больше часа в день';
-					ctx.wizard.next();
-				});
 				ctx.wizard.next();
 			},
+			stepHandlerforAnswerThree,
 			async ctx => {
 				switch (ctx.session.question1) {
 					case 'от 0 до 5 000 РУБ':
-						ctx.reply('от 0 до 5 000 РУБ');
+						ctx.reply('Загрузка...');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.mp4' }, video0_5000);
-						
+						ctx.wizard.next();
 						break;
 
 					case 'от 5 000 до 25 000 РУБ':
-						ctx.reply('от 5 000 до 25 000 РУБ');
+						ctx.reply('Загрузка...');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.mp4' }, video5000_10000);
+						ctx.wizard.next();
 						break;
 
 					case 'от 25 000 РУБ':
-						ctx.reply('от 25 000 РУБ');
+						ctx.reply('Загрузка...');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.mp4' }, video10000);
+						ctx.wizard.next();
 						break;
 				
 					default:
 						break;
 				}
-				ctx.wizard.next();
 			},
 			async ctx => {
 				ctx.reply('Загрузка...');
