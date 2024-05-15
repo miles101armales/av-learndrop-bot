@@ -91,26 +91,25 @@ export class LearnScene extends Scene {
 			async ctx => {
 				switch (ctx.session.question1) {
 					case 'от 0 до 5 000 РУБ':
-						ctx.reply('Загрузка...');
+						ctx.reply('от 0 до 5 000 РУБ');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video1.mp4' }, video0_5000);
-						ctx.wizard.next();
+						
 						break;
 
 					case 'от 5 000 до 25 000 РУБ':
-						ctx.reply('Загрузка...');
+						ctx.reply('от 5 000 до 25 000 РУБ');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video2.mp4' }, video5000_10000);
-						ctx.wizard.next();
 						break;
 
 					case 'от 25 000 РУБ':
-						ctx.reply('Загрузка...');
+						ctx.reply('от 25 000 РУБ');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/video3.mp4' }, video10000);
-						ctx.wizard.next();
 						break;
 				
 					default:
 						break;
 				}
+				ctx.wizard.next();
 			},
 			async ctx => {
 				ctx.reply('Загрузка...');
