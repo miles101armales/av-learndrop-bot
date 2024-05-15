@@ -2,6 +2,9 @@ import { IBotContext } from '../models/context.interface';
 import { Scene } from '../models/scene.class';
 import { Composer, Scenes, Telegraf } from 'telegraf';
 import { final, greeting, video0_5000, video10000, video5000_10000 } from './constants';
+import { Bot } from '../app';
+import { ConfigService } from '../utils/config/config.service';
+import { LoggerService } from '../utils/logger/logger.service';
 
 export class LearnScene extends Scene {
 	state: string;
@@ -10,7 +13,8 @@ export class LearnScene extends Scene {
 		super(bot);
 	}
 	handle(): void {
-		const stepHandlerforAnswerOne = new Composer<IBotContext>();
+		try {
+			const stepHandlerforAnswerOne = new Composer<IBotContext>();
 		stepHandlerforAnswerOne.action('0100', ctx => {
 			ctx.session.question1 = 'от 0 до 5 000 РУБ';
 			ctx.replyWithHTML('Ваш урок уже формируется!\n\nОтветьте на вопрос: <b>Сколько вы хотите заработать на дропах?</b>', {
@@ -123,12 +127,12 @@ export class LearnScene extends Scene {
 
 		this.scene = new Scenes.WizardScene(
 			'learn',
-			async ctx => {
+			ctx => {
 				ctx.reply('Загрузка информации по действующим дропам...')
 				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
 				ctx.wizard.next();
 			},
-			async ctx => {
+			ctx => {
 				ctx.replyWithHTML('Ответьте на вопрос: <b>Какую сумму вы собираетесь использовать для работы с дропами?</b>', {
 					reply_markup: {
 						inline_keyboard: [
@@ -143,7 +147,7 @@ export class LearnScene extends Scene {
 			stepHandlerforAnswerOne,
 			stepHandlerforAnswerTwo,
 			stepHandlerforAnswerThree,
-			async ctx => {
+			ctx => {
 				switch (ctx.session.question1) {
 					case 'от 0 до 5 000 РУБ':
 						ctx.reply('Загрузка...');
@@ -167,12 +171,16 @@ export class LearnScene extends Scene {
 						break;
 				}
 			},
-			async ctx => {
+			ctx => {
 				ctx.reply('Загрузка...');
 				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.mp4' }, final);
 				ctx.scene.leave();
 			}
 		);
+		} catch (error) {
+			const bot = new Bot(new ConfigService, new LoggerService);
+			bot.init();
+		}
 	}
 
 }
