@@ -6,14 +6,18 @@ import { Bot } from '../app';
 import { ConfigService } from '../utils/config/config.service';
 import { LoggerService } from '../utils/logger/logger.service';
 import { ExceptionFilter } from '../utils/error/exception.service';
+import * as fs from 'fs';
+import { GoogleApi } from '../utils/googleapis/google.service';
 
 export class LearnScene extends Scene {
 	state: string;
 	scene: Scenes.WizardScene<IBotContext>
 	exceptionFilter: ExceptionFilter;
+	googleapi: GoogleApi;
 	constructor(bot: Telegraf<IBotContext>) {
 		super(bot);
 		this.exceptionFilter = new ExceptionFilter()
+		this.googleapi = new GoogleApi()
 	}
 	handle(): void {
 			const stepHandlerforAnswerOne = new Composer<IBotContext>();
@@ -232,6 +236,18 @@ export class LearnScene extends Scene {
 					try {
 						ctx.reply('Загрузка...');
 						ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/final.mp4' }, final);
+						const pollResult: string [][] = [];
+						const data = [
+							ctx.session.username,
+							ctx.session.name,
+							ctx.session.phoneToCall,
+							ctx.session.question1,
+							ctx.session.question2,
+							ctx.session.question3
+						];
+						pollResult.push(data);
+						const spreadsheet = JSON.parse(fs.readFileSync('spreadsheet.json', 'utf-8'));
+						this.googleapi.writeDataToTable(pollResult, spreadsheet.spreadsheetId);
 						ctx.scene.leave();
 					} catch (error) {
 						this.exceptionFilter.handle(error)
