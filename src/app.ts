@@ -7,6 +7,7 @@ import { LoggerService } from './utils/logger/logger.service';
 import LocalSession from 'telegraf-session-local';
 import { StartCommand } from './controllers/start.command';
 import { LearnScene } from './controllers/learn.scene';
+import { HelpCommand } from './controllers/help.command';
 
 export class Bot {
 	bot: Telegraf<IBotContext>;
@@ -30,6 +31,7 @@ export class Bot {
 		try {
 			this.commands = [
 				new StartCommand(this.bot),
+				new HelpCommand(this.bot);
 			];
 			for (const command of this.commands) {
 				command.handle();
