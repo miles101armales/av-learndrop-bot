@@ -2,3 +2,5 @@
 .env
 sessions.json
 /dist
+spreadsheet.json
+credentials.json
