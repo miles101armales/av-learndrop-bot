@@ -11,7 +11,7 @@ export class HelpCommand extends Command {
 			})
 
 			this.bot.action('learn', ctx => {
-				ctx.scene.reenter();
+				ctx.scene.enter('learn');
 			})
 		})
 	}
