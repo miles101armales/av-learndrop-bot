@@ -37,10 +37,10 @@ export class GoogleApi {
 	public async writeDataToTable(data: any[], spreadsheetId: any): Promise<void> {
 		const sheets = google.sheets({ version: 'v4', auth: await this.client });
 		try {
-			await sheets.spreadsheets.values.clear({
-				spreadsheetId,
-				range: 'Дропы 16.05' // Range covering all columns from A to B (adjust as needed)
-			});
+			// await sheets.spreadsheets.values.clear({
+			// 	spreadsheetId,
+			// 	range: 'Дропы 16.05' // Range covering all columns from A to B (adjust as needed)
+			// });
 			// Диапазон в таблице, куда вы хотите добавить данные
 			const range = 'Дропы 16.05'; // Например, добавление в первую строку
 			// Выполнение запроса на добавление данных
