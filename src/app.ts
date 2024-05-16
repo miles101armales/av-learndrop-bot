@@ -31,7 +31,7 @@ export class Bot {
 		try {
 			this.commands = [
 				new StartCommand(this.bot),
-				new HelpCommand(this.bot);
+				new HelpCommand(this.bot),
 			];
 			for (const command of this.commands) {
 				command.handle();
