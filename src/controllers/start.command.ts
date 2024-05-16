@@ -12,11 +12,7 @@ export class StartCommand extends Command {
 					ctx.session.phoneToCall = ctx.msg.text;
 					ctx.session.username = ctx.from.username;
 					ctx.session.name = ctx.from.first_name;
-					try {
-						ctx.scene.reenter();
-					} catch (error) {
-						ctx.scene.enter('learn');
-					}
+					ctx.scene.enter('learn')
 				});
 			})
 		} catch (error) {
