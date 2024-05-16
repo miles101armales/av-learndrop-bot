@@ -4,7 +4,7 @@ import { about } from './constants';
 export class HelpCommand extends Command {
 	handle(): void {
 		this.bot.help(ctx => {
-			ctx.reply(about, {
+			ctx.replyWithHTML(about, {
 				reply_markup: {
 					inline_keyboard: [[{ text: 'Уроки', callback_data: 'learn'}]]
 				}
