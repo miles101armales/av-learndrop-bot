@@ -53,9 +53,7 @@ export class Bot {
 			this.bot.launch();
 			const sessions = JSON.parse(fs.readFileSync('sessions.json', 'utf-8'));
 			for (const session of sessions.sessions) {
-				this.bot.telegram.sendVideo(session.id, { source: './src/public/video/dozhim1.mp4' }, {
-					width: 720,
-					height: 1280,
+				this.bot.telegram.sendMessage(session.id, 'Добрый вечер!\n\nМы получили множество обращений и добавили уроки, для того чтобы понимать какие инстуркции вам необходимы. Нажмите кнопку ниже, чтобы просмотреть!', {
 					reply_markup: {
 						inline_keyboard: [
 							[{ text: 'Что там далее?', callback_data: 'dozhim' }]

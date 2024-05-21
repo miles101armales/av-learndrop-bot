@@ -45,6 +45,18 @@ export class DozhimScene extends Scene {
 		this.scene = new Scenes.WizardScene(
 			'dozhim',
 			ctx => {
+				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/dozhim1.mp4' }, {
+					width: 720,
+					height: 1280,
+					reply_markup: {
+						inline_keyboard: [
+							[{ text: 'ПРОСМОТРЕНО✅', callback_data: '1' }]
+						]
+					}
+				})
+				ctx.wizard.next();
+			},
+			ctx => {
 				ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/dozhim2.mp4' }, {
 					width: 720,
 					height: 1280,
