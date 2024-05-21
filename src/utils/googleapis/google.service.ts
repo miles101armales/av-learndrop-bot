@@ -42,7 +42,7 @@ export class GoogleApi {
 			// 	range: 'Дропы 16.05' // Range covering all columns from A to B (adjust as needed)
 			// });
 			// Диапазон в таблице, куда вы хотите добавить данные
-			const range = 'Дропы 16.05'; // Например, добавление в первую строку
+			const range = 'Дропы 21.05'; // Например, добавление в первую строку
 			// Выполнение запроса на добавление данных
 			const response = await sheets.spreadsheets.values.append({
 				spreadsheetId,
