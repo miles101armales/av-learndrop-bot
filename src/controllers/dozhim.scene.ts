@@ -1,13 +1,17 @@
 import { IBotContext } from '../models/context.interface';
 import { Composer, Scenes, Telegraf } from 'telegraf';
 import { Scene } from '../models/scene.class';
+import { GoogleApi } from '../utils/googleapis/google.service';
+import * as fs from 'fs';
 
 export class DozhimScene extends Scene {
 	state: string;
 	scene: Scenes.WizardScene<IBotContext>
+	googleapi: GoogleApi;
 	
 	constructor(bot: Telegraf<IBotContext>) {
 		super(bot);
+		this.googleapi = new GoogleApi()
 	}
 	handle(): void {
 		const stepHandler1 = new Composer<IBotContext>;
@@ -58,7 +62,18 @@ export class DozhimScene extends Scene {
 			},
 			stepHandler1,
 			ctx => {
-				ctx.reply('Ожидайте звонка от специалиста по указанному вами номеру😊')
+				ctx.reply('Ожидайте звонка от специалиста по указанному вами номеру😊.\n\nИмена наших специалистов:\nЕкатерина⚡\n\nСергей⚡\n\nТимофей⚡')
+				const pollResult: string [][] = [];
+				const data = [
+					ctx.session.name,
+					ctx.session.username,
+					ctx.session.dozhim1,
+					'Дошел до конца'
+				]
+				pollResult.push(data);
+				const spreadsheet = JSON.parse(fs.readFileSync('spreadsheet.json', 'utf-8'));
+				this.googleapi.writeDataToTable(pollResult, spreadsheet.spreadsheetId);
+				ctx.scene.leave();
 			}
 		)
 	}
