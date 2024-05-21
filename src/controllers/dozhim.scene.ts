@@ -77,6 +77,7 @@ export class DozhimScene extends Scene {
 				const data = [
 					ctx.session.name,
 					ctx.session.username,
+					ctx.session.phoneToCall,
 					ctx.session.dozhim1,
 					'Дошел до конца'
 				]
