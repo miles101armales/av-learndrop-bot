@@ -10,6 +10,9 @@ export interface IBotSession extends Scenes.WizardSession<WizardSessionData> {
 	question1: string;
 	question2: string;
 	question3: string;
+	dozhim1: string;
+	dozhim2: string;
+	dozhim3: string;
 	score: number;
 }
 

@@ -8,6 +8,8 @@ import LocalSession from 'telegraf-session-local';
 import { StartCommand } from './controllers/start.command';
 import { LearnScene } from './controllers/learn.scene';
 import { HelpCommand } from './controllers/help.command';
+import { DozhimScene } from './controllers/dozhim.scene';
+import * as fs from 'fs'
 
 export class Bot {
 	bot: Telegraf<IBotContext>;
@@ -39,6 +41,7 @@ export class Bot {
 
 			this.scenes = [
 				new LearnScene(this.bot),
+				new DozhimScene(this.bot),
 			];
 			for (const scene of this.scenes) {
 				scene.handle();
@@ -48,6 +51,20 @@ export class Bot {
 			this.bot.use(stage.middleware());
 
 			this.bot.launch();
+			const sessions = JSON.parse(fs.readFileSync('sessions.json', 'utf-8'));
+			for (const session of sessions.sessions) {
+				this.bot.telegram.sendVideo(session.id, { source: './src/public/video/dozhim1.mp4' }, {
+					width: 720,
+					height: 1280,
+					reply_markup: {
+						inline_keyboard: [
+							[{ text: 'Что там далее?', callback_data: 'dozhim' }]
+						]
+					}
+				})
+				// ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
+			}
+			this.bot.action('dozhim', ctx => ctx.scene.enter('dozhim'))
 			this.loggerService.log('Bot init success');
 		} catch (error) {
 			this.loggerService.error(error);
