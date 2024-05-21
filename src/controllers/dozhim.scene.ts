@@ -56,7 +56,10 @@ export class DozhimScene extends Scene {
 				});
 				ctx.wizard.next();
 			},
-			stepHandler1
+			stepHandler1,
+			ctx => {
+				ctx.reply('Ожидайте звонка от специалиста по указанному вами номеру😊')
+			}
 		)
 	}
 
