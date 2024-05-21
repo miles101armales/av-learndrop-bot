@@ -20,7 +20,6 @@ export class DozhimScene extends Scene {
 			ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/dozhim3.mp4' }, {
 				width: 720,
 				height: 1280,
-				caption: 'Выберите вашу ситуацию',
 				reply_markup: {
 					inline_keyboard: [
 						[{ text: 'Забрать свое', callback_data: 'call' }]
@@ -34,7 +33,6 @@ export class DozhimScene extends Scene {
 			ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/dozhim3.mp4' }, {
 				width: 720,
 				height: 1280,
-				caption: 'Выберите вашу ситуацию',
 				reply_markup: {
 					inline_keyboard: [
 						[{ text: 'Забрать свое', callback_data: 'call' }]
