@@ -52,16 +52,16 @@ export class Bot {
 
 			this.bot.launch();
 			const sessions = JSON.parse(fs.readFileSync('sessions.json', 'utf-8'));
-			for (const session of sessions.sessions) {
-				this.bot.telegram.sendMessage(session.id, 'Добрый вечер!\n\nМы получили множество обращений и добавили уроки, для того чтобы понимать какие инстуркции вам необходимы. Нажмите кнопку ниже, чтобы просмотреть!', {
-					reply_markup: {
-						inline_keyboard: [
-							[{ text: 'Что там далее?', callback_data: 'dozhim' }]
-						]
-					}
-				})
-				// ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
-			}
+			// for (const session of sessions.sessions) {
+			// 	this.bot.telegram.sendMessage(session.id, 'Добрый вечер!\n\nМы получили множество обращений и добавили уроки, для того чтобы понимать какие инстуркции вам необходимы. Нажмите кнопку ниже, чтобы просмотреть!', {
+			// 		reply_markup: {
+			// 			inline_keyboard: [
+			// 				[{ text: 'Что там далее?', callback_data: 'dozhim' }]
+			// 			]
+			// 		}
+			// 	})
+			// 	// ctx.telegram.sendVideo(ctx.chat?.id, { source: './src/public/video/greeting.mp4' }, greeting);
+			// }
 			this.bot.action('dozhim', ctx => ctx.scene.enter('dozhim'))
 			this.loggerService.log('Bot init success');
 		} catch (error) {
