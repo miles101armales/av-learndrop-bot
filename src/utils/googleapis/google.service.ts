@@ -59,6 +59,56 @@ export class GoogleApi {
 		}
 	}
 
+	public async UpdateDataInTable(data: any[], uniqueValue: string, column: string = 'A'): Promise<void> {
+		const sheets = google.sheets({ version: 'v4', auth: await this.client });
+	
+		try {
+			// Шаг 1: Прочитать данные из таблицы, чтобы найти строку с уникальным значением
+			const readResponse = await sheets.spreadsheets.values.get({
+				spreadsheetId: this.spreadsheetId,
+				range: 'Дропы 21.05', // Диапазон чтения данных
+			});
+	
+			const rows = readResponse.data.values;
+			if (!rows || rows.length === 0) {
+				console.log('Нет данных в таблице.');
+				return;
+			}
+	
+			// Найти индекс строки, содержащей уникальное значение в указанной колонке
+			let rowIndex = -1;
+			const columnIndex = column.charCodeAt(0) - 'A'.charCodeAt(0);
+	
+			for (let i = 0; i < rows.length; i++) {
+				if (rows[i][columnIndex] === uniqueValue) {
+					rowIndex = i;
+					break;
+				}
+			}
+	
+			if (rowIndex === -1) {
+				console.log(`Не удалось найти строку с уникальным значением: ${uniqueValue}`);
+				return;
+			}
+	
+			// Шаг 2: Обновить найденную строку новыми данными
+			const updateRange = `Дропы 21.05!A${rowIndex + 1}:Z${rowIndex + 1}`; // Диапазон обновления строки (A-Z)
+	
+			const updateResponse = await sheets.spreadsheets.values.update({
+				spreadsheetId: this.spreadsheetId,
+				range: updateRange,
+				valueInputOption: 'RAW',
+				requestBody: {
+					values: [data],
+				},
+			});
+	
+			console.log('Строка успешно обновлена:', updateResponse.data);
+		} catch (error) {
+			console.error('Произошла ошибка при обновлении данных:', error);
+		}
+	}
+
 	public async compareData(data: string[]): Promise<void> {
 
 	}

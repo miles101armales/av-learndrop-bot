@@ -8,6 +8,7 @@ export interface User {
 		question1: string,
 		question2: string,
 		question3: string,
-		dozhim1: string
+		dozhim1: string,
+		dozhim2: string
 	}
 }

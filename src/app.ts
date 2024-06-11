@@ -1,4 +1,4 @@
-import { Scenes, Telegraf } from 'telegraf';
+import { Markup, Scenes, Telegraf } from 'telegraf';
 import { IBotContext } from './models/context.interface';
 import { Command } from './models/command.class';
 import { Scene } from './models/scene.class';
@@ -11,6 +11,7 @@ import { HelpCommand } from './controllers/help.command';
 import { DozhimScene } from './controllers/dozhim.scene';
 import * as fs from 'fs'
 import { User } from './models/user.interface';
+import { message1 } from './controllers/constants';
 
 export class Bot {
 	bot: Telegraf<IBotContext>;
@@ -60,16 +61,13 @@ export class Bot {
 			for (let i = 0; i < sessions.sessions.length; i += batchSize) {
 				const batch = sessions.sessions.slice(i, i + batchSize);
 				const promises = batch.map(async (user: User) => {
-					if (user.data.dozhim1 === undefined) {
-						this.bot.telegram.sendVideo(user.id, { source: './src/public/video/dozhim1.mp4' }, {
-							width: 720,
-							height: 1280,
-							reply_markup: {
-								inline_keyboard: [
-									[{ text: 'Что там далее?', callback_data: 'dozhim' }]
-								]
-							}
-						})
+					if (user.data.dozhim2 === undefined) {
+						user.data.dozhim2 = 'pass';
+						this.bot.telegram.sendPhoto(user.id, { source: './src/public/images/photo1.jpg'},
+							Markup.inlineKeyboard([
+								[Markup.button.url('Иду на мастер-класс', 'https://online.azat-valeev.ru/stslkript_tgt')]
+							]))
+						this.bot.telegram.sendMessage(user.id, message1, {parse_mode: 'HTML'})
 					}
 				})
 				await Promise.all(promises);
