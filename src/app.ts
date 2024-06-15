@@ -24,7 +24,7 @@ export class Bot {
 		private readonly configService: ConfigService,
 		private readonly loggerService: LoggerService,
 	) {
-		this.bot = new Telegraf<IBotContext>(this.configService.get('API_TOKEN'));
+		this.bot = new Telegraf<IBotContext>(this.configService.get('API_LEARNDROP'));
 		this.bot.use(
 			new LocalSession({ database: 'sessions.json' })
 			.middleware()
@@ -54,25 +54,24 @@ export class Bot {
 
 			this.bot.launch();
 			this.loggerService.log('Bot init success');
-			const sessions = JSON.parse(fs.readFileSync('sessions.json', 'utf-8'));
-			this.loggerService.log('Количество пользователей ' + sessions.sessions.length)
-			const batchSize = 7;
+			// const sessions = JSON.parse(fs.readFileSync('sessions.json', 'utf-8'));
+			// this.loggerService.log('Количество пользователей ' + sessions.sessions.length)
+			// const batchSize = 7;
 
-			for (let i = 0; i < sessions.sessions.length; i += batchSize) {
-				const batch = sessions.sessions.slice(i, i + batchSize);
-				const promises = batch.map(async (user: User) => {
-					if (user.data.dozhim2 === undefined) {
-						user.data.dozhim2 = 'pass';
-						this.bot.telegram.sendPhoto(user.id, { source: './src/public/images/photo1.jpg'},
-							Markup.inlineKeyboard([
-								[Markup.button.url('Иду на мастер-класс', 'https://online.azat-valeev.ru/stslkript_tgt')]
-							]))
-						this.bot.telegram.sendMessage(user.id, message1, {parse_mode: 'HTML'})
-					}
-				})
-				await Promise.all(promises);
-			}
-			this.bot.command('dozhim', ctx => ctx.scene.enter('dozhim'))
+			// for (let i = 0; i < sessions.sessions.length; i += batchSize) {
+			// 	const batch = sessions.sessions.slice(i, i + batchSize);
+			// 	const promises = batch.map(async (user: User) => {
+			// 		if (user.data.dozhim2 === undefined) {
+			// 			this.bot.telegram.sendPhoto(user.id, { source: './src/public/images/photo1.jpg',},
+			// 				Markup.inlineKeyboard([
+			// 					[Markup.button.url('Иду на мастер-класс', 'https://online.azat-valeev.ru/stslkript_tgt')]
+			// 				]))
+			// 			this.bot.telegram.sendMessage(user.id, message1, {parse_mode: 'HTML'})
+			// 		}
+			// 	})
+			// 	await Promise.all(promises);
+			// }
+			// this.bot.command('dozhim', ctx => ctx.scene.enter('dozhim'))
 		} catch (error) {
 			this.loggerService.error(error);
 		}
